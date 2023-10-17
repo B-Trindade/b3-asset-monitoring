@@ -140,3 +140,12 @@ AUTH_USER_MODEL = 'core.User'
 REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
+
+CELERY_BROKER_URL = os.environ.get(
+    "CELERY_BROKER",
+    "redis://redis:6379/0"  # Default Redis listening port
+)
+CELERY_RESULT_BACKEND = os.environ.get(
+    "CELERY_BACKEND",
+    "redis://redis:6379/0"
+)

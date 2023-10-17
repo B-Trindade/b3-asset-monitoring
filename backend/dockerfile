@@ -9,12 +9,15 @@ COPY ./app /app
 WORKDIR /app
 EXPOSE 8000
 
+# System Level Dependencies run earlier to exchange
+# image size for building speed.
+RUN apk add --update --no-cache postgresql-client && \
+    apk add --update --no-cache --virtual .tmp-build-deps \
+        build-base postgresql-dev gcc python3-dev musl-dev
+
 ARG DEV=false
 RUN python -m venv /py && \
     /py/bin/pip install --upgrade pip && \
-    apk add --update --no-cache postgresql-client && \
-    apk add --update --no-cache --virtual .tmp-build-deps \
-        build-base postgresql-dev gcc python3-dev musl-dev && \
     /py/bin/pip install -r /tmp/requirements.txt && \
     if [ $DEV = "true" ]; \
         then /py/bin/pip install -r /tmp/requirements.dev.txt ; \

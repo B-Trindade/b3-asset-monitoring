@@ -1,6 +1,9 @@
 version: '3.9'
 
 services:
+  redis:
+    image: redis:7.0.11-alpine
+
   backendapp:
     build:
       context: ./backend
@@ -21,6 +24,23 @@ services:
       - DB_PASS=password
     depends_on:
       - db
+      - redis
+
+  celery:
+    build:
+      context: ./backend
+      args:
+        - DEV=true
+    volumes:
+      - ./backend/app:/app
+    environment:
+      - DB_HOST=db
+      - DB_NAME=devdb
+      - DB_USER=devuser
+      - DB_PASS=password
+    depends_on:
+      - db
+      - redis
 
   db:
     image: postgres:13-alpine
