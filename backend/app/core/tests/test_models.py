@@ -5,6 +5,8 @@ Tests for models.
 from django.test import TestCase
 from django.contrib.auth import get_user_model
 
+from core import models
+
 
 class ModelTests(TestCase):
     """Test models."""
@@ -53,3 +55,15 @@ class ModelTests(TestCase):
 
         self.assertTrue(user.is_superuser)
         self.assertTrue(user.is_staff)
+
+    def test_creating_asset(self):
+        """Tests creating an asset is successful."""
+        asset = models.Asset.objects.create(
+            symbol='gogl34.sa',
+            # We use an integer for the 58.23 value instead of a float
+            # in order to avoid rounding errors when dealing with
+            # sensitive numbers. True_value = value / 100.
+            value=5823
+        )
+
+        self.assertEqual(str(asset), asset.symbol)
