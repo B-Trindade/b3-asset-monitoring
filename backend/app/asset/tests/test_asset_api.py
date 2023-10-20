@@ -13,13 +13,13 @@ from core.models import Asset
 from asset.serializers import AssetSerializer
 
 
-ASSETS_URL = reverse('asset:recipe-list')
+ASSETS_URL = reverse('asset:asset-list')
 
 
-def create_asset(users, **params):
+def create_asset(symbol: str, users, **params):
     """Create and return a sample asset."""
     defaults = {
-        'symbol': 'sampl3.sa',
+        'symbol': symbol,
         'value': 3205,
     }
     defaults.update(params)
@@ -60,8 +60,8 @@ class PrivateAssetAPITests(TestCase):
 
     def test_retrieve_assets(self):
         """Test retrieving the list of assets."""
-        create_asset(users=[self.user1])
-        create_asset(users=[self.user1, self.user2])
+        create_asset(symbol='sampl3.sa', users=[self.user1])
+        create_asset(symbol='gogl34.sa', users=[self.user1, self.user2])
 
         res = self.client.get(ASSETS_URL)
 
@@ -72,13 +72,13 @@ class PrivateAssetAPITests(TestCase):
 
     def test_asset_list_limited_to_user(self):
         """Test list of assets associated to authenticated user."""
-        create_asset(users=[self.user1])
-        create_asset(users=[self.user1, self.user2])
-        create_asset(users=[self.user2])
+        create_asset(symbol='gogl34.sa', users=[self.user1])
+        create_asset(symbol='sampl3.sa', users=[self.user1, self.user2])
+        create_asset(symbol='sampl4.sa', users=[self.user2])
 
         res = self.client.get(ASSETS_URL)
 
-        assets = Asset.objects.filter(user=self.user1)
+        assets = Asset.objects.filter(user=self.user1).order_by('-id')
         serializer = AssetSerializer(assets, many=True)
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         self.assertEqual(res.data, serializer.data)
