@@ -11,9 +11,9 @@ jobs:
       db:
         image: postgres:13-alpine
         env:
-          - POSTGRES_DB=devdb
-          - POSTGRES_USER=devuser
-          - POSTGRES_PASSWORD=password
+          POSTGRES_DB=devdb
+          POSTGRES_USER=devuser
+          POSTGRES_PASSWORD=password
         ports:
           - "5432:5432"
     steps:
