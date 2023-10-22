@@ -25,7 +25,7 @@ class Command(BaseCommand):
             entries,
             update_conflicts=True,
             unique_fields=['symbol'],
-            update_fields=['date', 'close'],
+            update_fields=['date', 'value'],
         )
 
     def __get_all_tickers(self):
