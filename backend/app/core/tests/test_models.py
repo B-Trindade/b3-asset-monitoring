@@ -1,7 +1,7 @@
 """
 Tests for models.
 """
-
+from django.utils import timezone
 from django.test import TestCase
 from django.contrib.auth import get_user_model
 
@@ -60,10 +60,8 @@ class ModelTests(TestCase):
         """Tests creating an asset is successful."""
         asset = models.Asset.objects.create(
             symbol='gogl34.sa',
-            # We use an integer for the 58.23 value instead of a float
-            # in order to avoid rounding errors when dealing with
-            # sensitive numbers. True_value = value / 100.
-            value=5823
+            value=58.23,
+            date=timezone.now(),
         )
 
         self.assertEqual(str(asset), asset.symbol)
@@ -80,7 +78,8 @@ class ModelTests(TestCase):
         )
         asset = models.Asset.objects.create(
             symbol='gogl34.sa',
-            value=5823
+            value=58.23,
+            date=timezone.now(),
         )
         asset.user.add(user1, user2)
 

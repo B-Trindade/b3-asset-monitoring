@@ -55,6 +55,7 @@ class Asset(models.Model):
     """Asset object."""
     symbol = models.CharField(max_length=20, unique=True)
     value = models.IntegerField()
+    date = models.DateTimeField()
     user = models.ManyToManyField(settings.AUTH_USER_MODEL)
 
     def __str__(self):

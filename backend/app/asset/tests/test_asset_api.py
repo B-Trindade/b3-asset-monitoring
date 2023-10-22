@@ -4,6 +4,7 @@ Tests for asset APIs.
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
+from django.utils import timezone
 
 from rest_framework import status
 from rest_framework.test import APIClient
@@ -20,7 +21,8 @@ def create_asset(symbol: str, users, **params):
     """Create and return a sample asset."""
     defaults = {
         'symbol': symbol,
-        'value': 3205,
+        'value': 32.05,
+        'date': timezone.now()
     }
     defaults.update(params)
 
