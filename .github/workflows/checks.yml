@@ -10,7 +10,7 @@ jobs:
     services:
       db:
         image: postgres:13-alpine
-        environment:
+        env:
           - POSTGRES_DB=devdb
           - POSTGRES_USER=devuser
           - POSTGRES_PASSWORD=password
