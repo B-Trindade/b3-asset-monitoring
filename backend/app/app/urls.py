@@ -29,4 +29,5 @@ urlpatterns = [
         name='api-docs',
     ),  # uses api-schema from api/schema/ for the Swagger view
     path('api/user/', include('user.urls')),
+    path('api/asset/', include('asset.urls')),
 ]

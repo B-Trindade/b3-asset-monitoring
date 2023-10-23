@@ -1,9 +1,11 @@
 """
 Tests for models.
 """
-
+from django.utils import timezone
 from django.test import TestCase
 from django.contrib.auth import get_user_model
+
+from core import models
 
 
 class ModelTests(TestCase):
@@ -53,3 +55,33 @@ class ModelTests(TestCase):
 
         self.assertTrue(user.is_superuser)
         self.assertTrue(user.is_staff)
+
+    def test_creating_asset(self):
+        """Tests creating an asset is successful."""
+        asset = models.Asset.objects.create(
+            symbol='gogl34.sa',
+            value=58.23,
+            date=timezone.now(),
+        )
+
+        self.assertEqual(str(asset), asset.symbol)
+
+    def test_assigning_users_to_asset(self):
+        """Tests assigning users to an asset is successful."""
+        user1 = get_user_model().objects.create_user(
+            'testuser1@example.com',
+            'samplepass123',
+        )
+        user2 = get_user_model().objects.create_user(
+            'testuser2@example.com',
+            'samplepass123',
+        )
+        asset = models.Asset.objects.create(
+            symbol='gogl34.sa',
+            value=58.23,
+            date=timezone.now(),
+        )
+        asset.user.add(user1, user2)
+
+        self.assertEqual(user1.email, asset.user.get(email=user1.email).email)
+        self.assertEqual(user2.email, asset.user.get(email=user2.email).email)
