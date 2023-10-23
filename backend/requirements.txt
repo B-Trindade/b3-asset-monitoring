@@ -4,5 +4,6 @@ psycopg2>=2.8.6,<2.9
 drf-spectacular>=0.26.0,<0.27
 celery>=5.3.4,<5.4
 redis>=5.0.0,<5.1
-yahooquery>=2.2.8,<2.3
+yahooquery>=2.3.0,<2.4
 pandas>=2.1.0,<2.2
+investpy>=1.0.8,<1.1
