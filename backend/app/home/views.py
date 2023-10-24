@@ -21,3 +21,10 @@ def assetSelection(request):
 def assetTracker(request):
     """View for visualizing user's assets data."""
     return render(request, 'home/asset_tracker.html')
+
+
+def submitTunnel(request):
+    """View for submitting tunnels."""
+    selected_assets = request.GET.getlist('asset_selection')
+    print(selected_assets)
+    return render(request, 'home/tunnel.html', {'assets': selected_assets})

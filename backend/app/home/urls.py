@@ -13,4 +13,5 @@ app_name = 'home'
 urlpatterns = [
     path('', views.assetSelection, name='assetSelection'),
     path('liveTracker/', views.assetTracker, name='assetTracker'),
+    path('submitTunnels/', views.submitTunnel, name='submitTunnels'),
 ]

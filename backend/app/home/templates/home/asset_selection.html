@@ -11,7 +11,7 @@ Asset Selection
 <div class="container">
   <h1>Live Financial Asset Tracker</h1>
   <p>Select the assets you want to track</p>
-  <form action="">
+  <form action="/submitTunnels">
     <label for="asset_selection">Select Symbols:</label>
     <select class="form-select form-select-lg mb-3" multiple aria-label="multiple select example"
       name="asset_selection">
@@ -19,6 +19,10 @@ Asset Selection
       <option value="{{i}}">{{i}}</option>
       {% endfor %}
     </select>
+    <br>
+    <div class="d-grid gap-2">
+      <input class="btn btn-primary" type="submit" value="Select">
+    </div>
   </form>
 </div>
 {% endblock %}

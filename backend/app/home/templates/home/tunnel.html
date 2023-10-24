@@ -1,0 +1,64 @@
+{% extends 'home/basic.html' %}
+{% load static %}
+{% block title %}
+Tunnel Parameters
+{% endblock %}
+{% block css %}
+<style>
+</style>
+{% endblock %}
+{% block body %}
+  {% for i in assets %}
+  <br>
+  <label for="asset_form">{{i}}</label>
+  <form action="/liveTracker" class="row g-3 needs-validation" novalidate>
+    <div class="col-md-4">
+      <label for="validationLowerValue" class="form-label">Lower Threshold Value</label>
+      <div class="input-group has-validation">
+        <span class="input-group-text" id="inputGroupPrepend">R$</span>
+        <input type="text" class="form-control" id="validationLowerValue" aria-describedby="inputGroupPrepend" required>
+        <div class="invalid-feedback">
+          Please choose a value.
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <label for="validationUpperValue" class="form-label">Upper Threshold Value</label>
+      <div class="input-group has-validation">
+        <span class="input-group-text" id="inputGroupPrepend">R$</span>
+        <input type="text" class="form-control" id="validationUpperValue" aria-describedby="inputGroupPrepend" required>
+        <div class="invalid-feedback">
+          Please choose a value.
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+    <div class="col-12">
+      <button class="btn btn-primary" type="submit">Submit tunnels</button>
+    </div>
+
+  </form>
+{% endblock %}
+{% block js %}
+<script>
+  (function () {
+    'use strict'
+
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    var forms = document.querySelectorAll('.needs-validation')
+
+    // Loop over them and prevent submission
+    Array.prototype.slice.call(forms)
+      .forEach(function (form) {
+        form.addEventListener('submit', function (event) {
+          if (!form.checkValidity()) {
+            event.preventDefault()
+            event.stopPropagation()
+          }
+
+          form.classList.add('was-validated')
+        }, false)
+      })
+  })()
+</script>
+{% endblock %}
