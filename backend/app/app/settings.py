@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'drf_spectacular',
     'user',
     'asset',
+    'home',
 ]
 
 MIDDLEWARE = [
