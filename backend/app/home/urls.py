@@ -11,7 +11,8 @@ from home import views
 app_name = 'home'
 
 urlpatterns = [
-    path('', views.assetSelection, name='assetSelection'),
-    path('liveTracker/', views.assetTracker, name='assetTracker'),
-    path('submitTunnels/', views.submitTunnel, name='submitTunnels'),
+    path('login/', views.loginView, name='login'),
+    path('select/', views.assetSelectionView, name='assetSelection'),
+    path('liveTracker/', views.assetTrackerView, name='assetTracker'),
+    path('submitTunnels/', views.submitTunnelView, name='submitTunnels'),
 ]
