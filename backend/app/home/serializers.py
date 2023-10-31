@@ -5,8 +5,8 @@ Serializers for the frontend app.
 from rest_framework import serializers
 
 
-class LoginSerializer(serializers.Serializer):
-    """Login form serializer."""
+class RegisterSerializer(serializers.Serializer):
+    """Register form serializer."""
 
     email = serializers.EmailField(
         max_length=100,

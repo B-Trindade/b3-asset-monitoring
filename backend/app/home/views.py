@@ -11,7 +11,7 @@ from django.utils.translation import gettext_lazy as _
 
 from core.models import Asset
 from user.serializers import UserSerializer
-from home.serializers import LoginSerializer
+from home.serializers import RegisterSerializer
 
 from rest_framework import status
 from rest_framework.views import APIView
@@ -33,7 +33,7 @@ class RegisterView(APIView):
     renderer_class = [TemplateHTMLRenderer]
 
     def get(self, request):
-        serializer = LoginSerializer()
+        serializer = RegisterSerializer()
         return render(request, self.template_name,
                       {'serializer': serializer})
 
