@@ -11,6 +11,7 @@ from home import views
 app_name = 'home'
 
 urlpatterns = [
+    path('register/', views.RegisterView.as_view(), name='register'),
     path('login/', views.loginView, name='login'),
     path('select/', views.assetSelectionView, name='assetSelection'),
     path('liveTracker/', views.assetTrackerView, name='assetTracker'),

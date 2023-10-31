@@ -1,0 +1,22 @@
+{% extends 'home/basic.html' %}
+{% load static %}
+{% load rest_framework %}
+{% block title %}
+Create an account
+{% endblock %}
+{% block css %}
+<style>
+</style>
+{% endblock %}
+{% block body %}
+<h2>Register</h2>
+<form method="post" action="{% url 'home:register' %}">
+  {% csrf_token %}
+  {% render_form serializer template_pack='rest_framework/vertical' %}
+  <button type="submit">Register</button>
+</form>
+{% endblock %}
+{% block js %}
+<script>
+</script>
+{% endblock %}
