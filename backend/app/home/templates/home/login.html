@@ -1,5 +1,6 @@
 {% extends 'home/basic.html' %}
 {% load static %}
+{% load rest_framework %}
 {% block title %}
 Asset Selection
 {% endblock %}
@@ -11,8 +12,9 @@ Asset Selection
 <h2>Login</h2>
 <form method="post" action="{% url 'home:login' %}">
   {% csrf_token %}
-  {{ login_form.as_p }}
-  <button type="submit">Login</button>
+  {% render_form serializer template_pack='rest_framework/vertical' %}
+  <button class="btn btn-primary" type="submit">Login</button>
+  <a class="btn btn-primary" href="{% url 'home:register' %}" role="button">Register</a>
 </form>
 {% endblock %}
 {% block js %}

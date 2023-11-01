@@ -13,7 +13,7 @@ Create an account
 <form method="post" action="{% url 'home:register' %}">
   {% csrf_token %}
   {% render_form serializer template_pack='rest_framework/vertical' %}
-  <button type="submit">Register</button>
+  <button class="btn btn-primary" type="submit">Register</button>
 </form>
 {% endblock %}
 {% block js %}
