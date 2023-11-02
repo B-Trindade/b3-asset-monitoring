@@ -14,7 +14,7 @@ Asset Selection
   {% csrf_token %}
   {% render_form serializer template_pack='rest_framework/vertical' %}
   <button class="btn btn-primary" type="submit">Login</button>
-  <a class="btn btn-primary" href="{% url 'home:register' %}" role="button">Register</a>
+  <a class="btn btn-outline-success" href="{% url 'home:register' %}" role="button">Create an Account</a>
 </form>
 {% endblock %}
 {% block js %}

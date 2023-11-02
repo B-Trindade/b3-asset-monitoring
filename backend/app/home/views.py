@@ -5,9 +5,7 @@ import requests
 
 # from django.views import View
 from django.shortcuts import render, redirect
-from django.contrib.auth import login as auth_login
 from django.contrib.auth import get_user_model
-from django.contrib.auth.forms import AuthenticationForm
 from django.utils.translation import gettext_lazy as _
 
 from core.models import Asset
@@ -16,10 +14,10 @@ from home.serializers import RegisterSerializer, LoginSerializer
 
 from rest_framework import status
 from rest_framework.views import APIView
-from rest_framework.permissions import AllowAny
+from rest_framework.authtoken.models import Token
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.renderers import TemplateHTMLRenderer
 from rest_framework.response import Response
-# from rest_framework.authtoken.models import Token
 
 
 CREATE_USER_URL = "http://localhost:8000/api/user/create/"
@@ -35,6 +33,9 @@ class RegisterView(APIView):
     renderer_class = [TemplateHTMLRenderer]
 
     def get(self, request):
+        if request.user.is_authenticated:
+            return redirect('/select')
+
         serializer = RegisterSerializer()
         return render(request, self.template_name,
                       {'serializer': serializer})
@@ -92,20 +93,22 @@ class LoginView(APIView):
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
 
-        print('valid serializer')
         if serializer.is_valid():
             email = request.data['email']
             password = request.data['password']
             try:
-                # user = get_user_model().objects.get(email=email)
+                user = get_user_model().objects.get(email=email)
                 payload = {
                     'email': email,
                     'password': password,
                 }
                 res = requests.post(TOKEN_URL, payload)
                 if res.status_code == status.HTTP_200_OK:
-                    Response({'details': _('Login Successfull!')},
-                             status=status.HTTP_200_OK)
+                    Response({
+                        'token': Token.objects.get(user=user),
+                        'details': _('Login Successfull!')
+                        }, status=status.HTTP_200_OK)
+
                     return redirect('home:assetSelection')
 
                 return Response({'details': res.json()},
@@ -120,30 +123,33 @@ class LoginView(APIView):
                       {'serializer': serializer})
 
 
-def loginView(request):
-    """View for user login page."""
-    if request.method == 'POST':
-        login_form = AuthenticationForm(request, request.POST)
-        if login_form.is_valid():
-            # Authenticate the user and log them in
-            user = login_form.get_user()
-            auth_login(request, user)  # Logs the user in
-            # Redirect the user to their home page after login
-            return redirect('home:assetSelection')
-    else:
-        login_form = AuthenticationForm()
-    return render(request, 'home/login.html', {'login_form': login_form})
+class LogoutView(APIView):
+    """View for the log out handle."""
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        """Remove auth tokens for user."""
+        tokens = Token.objects.filter(user=request.user)
+        for token in tokens:
+            token.delete()
+        content = {'success': _('User signed out.')}
+        Response(content, status=status.HTTP_200_OK)
+        return redirect('/login')
 
 
-def assetSelectionView(request):
-    """View for select assets based on symbols template."""
-    asset_list = Asset.objects.values_list('symbol', flat=True)
-    print(asset_list)
-    return render(
-        request,
-        'home/asset_selection.html',
-        {'asset_list': asset_list}
-    )
+class AssetSelectionView(APIView):
+    """View for select assets based on symbols."""
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        """Shows the list of valid symbols in the database."""
+        asset_list = Asset.objects.values_list('symbol', flat=True)
+        # print(asset_list)
+        return render(
+            request,
+            'home/asset_selection.html',
+            {'asset_list': asset_list}
+        )
 
 
 def submitTunnelView(request):
