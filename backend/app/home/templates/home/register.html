@@ -2,19 +2,18 @@
 {% load static %}
 {% load rest_framework %}
 {% block title %}
-Asset Selection
+Create an account
 {% endblock %}
 {% block css %}
 <style>
 </style>
 {% endblock %}
 {% block body %}
-<h2>Login</h2>
-<form method="post" action="{% url 'home:login' %}">
+<h2>Register</h2>
+<form method="post" action="{% url 'home:register' %}">
   {% csrf_token %}
   {% render_form serializer template_pack='rest_framework/vertical' %}
-  <button class="btn btn-primary" type="submit">Login</button>
-  <a class="btn btn-primary" href="{% url 'home:register' %}" role="button">Register</a>
+  <button class="btn btn-primary" type="submit">Register</button>
 </form>
 {% endblock %}
 {% block js %}
