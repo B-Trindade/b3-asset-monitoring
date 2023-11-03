@@ -4,6 +4,7 @@ Views for the simplified/provisory frontend.
 import requests
 
 # from django.views import View
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
@@ -15,6 +16,7 @@ from home.serializers import RegisterSerializer, LoginSerializer
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.authtoken.models import Token
+from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.renderers import TemplateHTMLRenderer
 from rest_framework.response import Response
@@ -84,6 +86,7 @@ class LoginView(APIView):
     serializer_class = LoginSerializer
     template_name = 'home/login.html'
     renderer_class = [TemplateHTMLRenderer]
+    NEXT_PAGE = 'http://127.0.0.1:8000/select/'
 
     def get(self, request):
         serializer = self.serializer_class()
@@ -104,12 +107,13 @@ class LoginView(APIView):
                 }
                 res = requests.post(TOKEN_URL, payload)
                 if res.status_code == status.HTTP_200_OK:
-                    Response({
-                        'token': Token.objects.get(user=user),
-                        'details': _('Login Successfull!')
-                        }, status=status.HTTP_200_OK)
+                    token = Token.objects.get(user=user)
+                    # print(f"user: {user}")
 
-                    return redirect('home:assetSelection')
+                    header = {'Authorization': f'Token {token}'}
+                    return HttpResponse(
+                        requests.get(self.NEXT_PAGE, headers=header)
+                    )
 
                 return Response({'details': res.json()},
                                 status=status.HTTP_400_BAD_REQUEST)
@@ -140,6 +144,7 @@ class LogoutView(APIView):
 class AssetSelectionView(APIView):
     """View for select assets based on symbols."""
     permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
 
     def get(self, request):
         """Shows the list of valid symbols in the database."""
@@ -152,13 +157,18 @@ class AssetSelectionView(APIView):
         )
 
 
+class SubmitTunnelView(APIView):
+    """"""
+
+
 def submitTunnelView(request):
     """View for submitting tunnels."""
     selected_assets = request.GET.getlist('asset_selection')
-    print(selected_assets)
     return render(request, 'home/tunnel.html', {'assets': selected_assets})
 
 
 def assetTrackerView(request):
     """View for visualizing user's assets data."""
-    return render(request, 'home/asset_tracker.html')
+    user_assets = Asset.objects.filter(user=request.user)
+    print(user_assets, request.user)
+    return render(request, 'home/asset_tracker.html', {'assets': user_assets})

@@ -142,6 +142,9 @@ AUTH_USER_MODEL = 'core.User'
 # Makes Django RF use the drf spectacular's OpenAPI to generate schema
 REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    ),
 }
 
 CELERY_BROKER_URL = os.environ.get(

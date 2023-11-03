@@ -14,10 +14,11 @@ from asset import views
 
 router = DefaultRouter()
 # Creates /api/assets/
-router.register('assets', views.AssetViewSet)
+router.register('me', views.AssetViewSet)
 
 app_name = 'asset'
 
 urlpatterns = [
     path('', include(router.urls)),
+    path('list/', views.ListAssets.as_view(), name='list')
 ]

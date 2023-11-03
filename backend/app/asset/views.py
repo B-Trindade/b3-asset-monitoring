@@ -3,6 +3,7 @@ Views for the asset APIs.
 """
 
 from rest_framework import viewsets
+from rest_framework.generics import ListAPIView
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 
@@ -22,3 +23,11 @@ class AssetViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         """Retrieve assets for authenticated user."""
         return self.queryset.filter(user=self.request.user).order_by('-id')
+
+
+class ListAssets(ListAPIView):
+    """View for list assets API"""
+    serializer_class = serializers.AssetSerializer
+    queryset = Asset.objects.all()
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
