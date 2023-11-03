@@ -108,7 +108,8 @@ class LoginView(APIView):
                 res = requests.post(TOKEN_URL, payload)
                 if res.status_code == status.HTTP_200_OK:
                     token = Token.objects.get(user=user)
-                    # print(f"user: {user}")
+                    # request.session['token'] = token
+                    # print(f"token: {request.session['token']}")
 
                     header = {'Authorization': f'Token {token}'}
                     return HttpResponse(
@@ -145,11 +146,20 @@ class AssetSelectionView(APIView):
     """View for select assets based on symbols."""
     permission_classes = [IsAuthenticated]
     authentication_classes = [TokenAuthentication]
+    LIST_ASSETS_URL = 'http://127.0.0.1:8000/api/asset/list/'
 
     def get(self, request):
         """Shows the list of valid symbols in the database."""
-        asset_list = Asset.objects.values_list('symbol', flat=True)
-        # print(asset_list)
+
+        token = Token.objects.get(user=request.user)
+        header = {'Authorization': f'Token {token}'}
+        res = requests.get(self.LIST_ASSETS_URL, headers=header)
+        data = res.json()
+
+        asset_list = []
+        for dict in data:
+            asset_list.append(dict.get('symbol'))
+
         return render(
             request,
             'home/asset_selection.html',
