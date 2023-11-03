@@ -52,11 +52,26 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 
 class Asset(models.Model):
-    """Asset object."""
-    symbol = models.CharField(max_length=20, unique=True)
-    value = models.IntegerField()
+    """Asset model."""
+    symbol = models.CharField(max_length=20, unique=True,
+                              blank=False, null=False)
+    value = models.DecimalField(max_digits=10, decimal_places=2)
     date = models.DateTimeField()
-    user = models.ManyToManyField(settings.AUTH_USER_MODEL)
 
     def __str__(self):
         return self.symbol
+
+
+class Tunnel(models.Model):
+    """Tunnel model."""
+    userId = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE
+    )
+    assetId = models.ForeignKey(Asset, on_delete=models.CASCADE)
+    lowerVal = models.DecimalField(max_digits=10, decimal_places=2)
+    upperVal = models.DecimalField(max_digits=10, decimal_places=2)
+    interval = models.PositiveIntegerField()
+
+    def __str__(self):
+        return f"Tunnel for: {self.assetId.symbol} by {self.userId.email}"
