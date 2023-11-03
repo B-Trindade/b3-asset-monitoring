@@ -108,8 +108,6 @@ class LoginView(APIView):
                 res = requests.post(TOKEN_URL, payload)
                 if res.status_code == status.HTTP_200_OK:
                     token = Token.objects.get(user=user)
-                    # request.session['token'] = token
-                    # print(f"token: {request.session['token']}")
 
                     header = {'Authorization': f'Token {token}'}
                     return HttpResponse(
@@ -128,6 +126,7 @@ class LoginView(APIView):
                       {'serializer': serializer})
 
 
+# Currently not in use
 class LogoutView(APIView):
     """View for the log out handle."""
     permission_classes = [IsAuthenticated]
@@ -168,7 +167,13 @@ class AssetSelectionView(APIView):
 
 
 class SubmitTunnelView(APIView):
-    """"""
+    """View for submitting new tunnels."""
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
+
+    def get(self, request):
+        selected_assets = request.GET.getlist('asset_selection')
+        return render(request, 'home/tunnel.html', {'assets': selected_assets})
 
 
 def submitTunnelView(request):
@@ -179,6 +184,14 @@ def submitTunnelView(request):
 
 def assetTrackerView(request):
     """View for visualizing user's assets data."""
-    user_assets = Asset.objects.filter(user=request.user)
+    USER_SYMBOLS_API = 'http://127.0.0.1:8000/api/asset/me/'
+
+    token = Token.objects.get_or_create(user=request.user.id)
+    header = {'Authorization': f'Token {token}'}
+    res = requests.get(USER_SYMBOLS_API, headers=header)
+    data = res.json()
+
+    user_assets = Asset.objects.filter(user=request.user.id)
     print(user_assets, request.user)
+    print(data)
     return render(request, 'home/asset_tracker.html', {'assets': user_assets})
