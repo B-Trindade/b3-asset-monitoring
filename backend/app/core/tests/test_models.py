@@ -3,6 +3,7 @@ Tests for models.
 """
 from django.utils import timezone
 from django.test import TestCase
+from django.core.exceptions import ValidationError
 from django.contrib.auth import get_user_model
 
 from core import models
@@ -69,12 +70,13 @@ class ModelTests(TestCase):
     # FIXME
     def test_creating_asset_missing_fields_raises_error(self):
         """Tests creating asset without a symbol raises error."""
-        # with self.assertRaises(ValueError):
-        #     models.Asset.objects.create(
-        #         value=58.23,
-        #         date=timezone.now(),
-        #     )
-        pass
+        with self.assertRaises(ValidationError):
+            asset = models.Asset.objects.create(
+                symbol="",
+                value=58.23,
+                date=timezone.now(),
+            )
+            asset.full_clean()
 
     def test_creating_tunnel_successful(self):
         asset = models.Asset.objects.create(

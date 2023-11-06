@@ -4,6 +4,8 @@ Database models.
 
 from django.conf import settings
 from django.db import models
+from django.core.exceptions import ValidationError
+from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import (
     AbstractBaseUser,  # Auth system
     BaseUserManager,
@@ -51,10 +53,19 @@ class User(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = 'email'
 
 
+def validate_not_empty(value):
+    """Custom validator for field value not empty."""
+    if not value:
+        raise ValidationError(_("Asset symbol cannot be empty."))
+
+
 class Asset(models.Model):
     """Asset model."""
-    symbol = models.CharField(max_length=20, unique=True,
-                              blank=False, null=False)
+    symbol = models.CharField(
+        max_length=20, unique=True,
+        blank=False, null=False,
+        validators=[validate_not_empty]
+    )
     value = models.DecimalField(max_digits=10, decimal_places=2)
     date = models.DateTimeField()
 
