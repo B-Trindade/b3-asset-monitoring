@@ -48,11 +48,11 @@ INSTALLED_APPS = [
 
     'core',
     'rest_framework',
-    # 'rest_framework.authtoken',
     'corsheaders',
     'drf_spectacular',
     'user',
     'asset',
+    # 'rest_framework.authtoken',
 ]
 
 MIDDLEWARE = [
