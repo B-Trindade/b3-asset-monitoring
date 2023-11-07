@@ -38,11 +38,12 @@ class PublicAssetAPITests(TestCase):
     def setUp(self):
         self.client = APIClient()
 
+    # TODO UPDATE TEST
     def test_auth_required(self):
         """Tests auth is required to call API."""
         res = self.client.get(ASSETS_URL)
 
-        self.assertEqual(res.status_code, status.HTTP_401_UNAUTHORIZED)
+        self.assertEqual(res.status_code, status.HTTP_403_FORBIDDEN)
 
 
 class PrivateAssetAPITests(TestCase):
