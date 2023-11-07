@@ -67,7 +67,6 @@ class ModelTests(TestCase):
 
         self.assertEqual(str(asset), asset.symbol)
 
-    # FIXME
     def test_creating_asset_missing_fields_raises_error(self):
         """Tests creating asset without a symbol raises error."""
         with self.assertRaises(ValidationError):
