@@ -2,12 +2,17 @@
 Views for the asset APIs.
 """
 
-from rest_framework import viewsets
-from rest_framework.authentication import TokenAuthentication
+from rest_framework import viewsets  # , views
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.authentication import SessionAuthentication
+# from rest_framework.authentication import TokenAuthentication
 
 from core.models import Asset
 from asset import serializers
+
+
+# class AssetView(views.ListAPIView):
+#     """View for listing assets."""
 
 
 class AssetViewSet(viewsets.ModelViewSet):
@@ -15,8 +20,8 @@ class AssetViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.AssetSerializer
     # query set thats manageable via this viewset
     queryset = Asset.objects.all()
-    # Token auth is needed to use endpoints provided by viewset
-    authentication_classes = [TokenAuthentication]
+    # Auth is needed to use endpoints provided by viewset
+    authentication_classes = [SessionAuthentication]
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
