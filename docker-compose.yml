@@ -1,8 +1,15 @@
 version: '3.9'
 
 services:
-  redis:
-    image: redis:7.0.11-alpine
+  frontendapp:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend/src:/app/src:ro
+    depends_on:
+      - redis
+      - db
 
   backendapp:
     build:
@@ -26,6 +33,9 @@ services:
     depends_on:
       - db
       - redis
+
+  redis:
+    image: redis:7.0.11-alpine
 
   celery:
     build:
