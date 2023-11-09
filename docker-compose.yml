@@ -1,7 +1,9 @@
 version: '3.9'
 
 services:
+
   frontendapp:
+    container_name: react-frontend
     build: ./frontend
     ports:
       - "3000:3000"
@@ -12,6 +14,7 @@ services:
       - db
 
   backendapp:
+    container_name: django-backend
     build:
       context: ./backend
       args:
@@ -35,9 +38,11 @@ services:
       - redis
 
   redis:
+    container_name: redis
     image: redis:7.0.11-alpine
 
   celery:
+    container_name: celery
     build:
       context: ./backend
       args:
@@ -54,6 +59,7 @@ services:
       - redis
 
   db:
+    container_name: postgres-db
     image: postgres:13-alpine
     volumes:
       - dev-db-data:/var/lib/postgresql/data
