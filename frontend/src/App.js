@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 
 import LoginPage from './pages/LoginPage';
+import CustomNavbar from './components/CustomNavbar';
 
 function App() {
   return (
