@@ -15,11 +15,11 @@ const ListTickers = () => {
   const navigate = useNavigate();
 
   function getTickers() {
-    // client.get(
-    //   "/api/asset/list/",
-    //   {withCredentials: true}
-    // )
-    client.get("https://jsonplaceholder.typicode.com/users")
+    // client.get("https://jsonplaceholder.typicode.com/users")
+    client.get(
+      "/api/asset/list/",
+      {withCredentials: true}
+    )
     .then(response => setTickers(response.data))
   }
 
@@ -32,9 +32,9 @@ const ListTickers = () => {
   return (
     <div>
       <MultiSelect
-        value={selectedTickers}
-        onChange={(e) => setSelectedTickers(e.value)}
-        options={tickers} optionLabel="name" //change to "symbol"
+        value={selectedTickers} optionValue="symbol"
+        onChange={e => setSelectedTickers(e.value)}
+        options={tickers} optionLabel="symbol"
         display="chip"
         placeholder="Select Tickers"
         maxSelectedLabels={3}
