@@ -1,4 +1,5 @@
 import './App.css';
+import "primereact/resources/themes/bootstrap4-light-blue/theme.css";
 
 import {
   BrowserRouter as Router,
@@ -6,18 +7,24 @@ import {
   Route
 } from "react-router-dom";
 
+
+import { PrimeReactProvider } from 'primereact/api';
+
 import LoginPage from './pages/LoginPage';
-import CustomNavbar from './components/CustomNavbar';
+import TickerSelectionPage from './pages/TickerSelectionPage';
 
 function App() {
   return (
-    <Router>
-      <div className='App'>
-        <Routes>
-            <Route path='/' exact element={<LoginPage/>} />
-        </Routes>
-      </div>
-    </Router>
+    <PrimeReactProvider>
+      <Router>
+        <div className='App'>
+          <Routes>
+              <Route path='/' exact element={<LoginPage/>} />
+              <Route path='/selectTickers/' exact element={<TickerSelectionPage/>} />
+          </Routes>
+        </div>
+      </Router>
+    </PrimeReactProvider>
   );
 }
 

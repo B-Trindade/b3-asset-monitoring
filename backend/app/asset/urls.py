@@ -20,4 +20,5 @@ app_name = 'asset'
 
 urlpatterns = [
     path('', include(router.urls)),
+    path('list/', views.ListAPIView.as_view(), name='list'),
 ]

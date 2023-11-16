@@ -90,8 +90,8 @@ const LoginPage = () => {
               <Navbar.Toggle aria-controls="responsive-navbar-nav" />
               <Navbar.Collapse id="responsive-navbar-nav">
                 <Nav className="me-auto">
-                  <Nav.Link href="#features">Home</Nav.Link>
-                  <Nav.Link href="#pricing">Add Tickers</Nav.Link>
+                  <Nav.Link href="/">Home</Nav.Link>
+                  <Nav.Link href="selectTickers/">Add Tickers</Nav.Link>
                 </Nav>
                 <Navbar.Text>
                   <form onSubmit={e => submitLogout(e)}>
@@ -120,8 +120,8 @@ const LoginPage = () => {
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="me-auto">
-              <Nav.Link href="#features">Home</Nav.Link>
-              <Nav.Link href="#pricing">Add Tickers</Nav.Link>
+              <Nav.Link href="/">Home</Nav.Link>
+              <Nav.Link href="selectTickers/">Add Tickers</Nav.Link>
             </Nav>
             <Navbar.Text>
               <Button id='form_btn' onClick={update_form_btn}
