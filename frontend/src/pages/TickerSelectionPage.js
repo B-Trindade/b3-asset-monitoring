@@ -1,6 +1,5 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { MultiSelect } from 'primereact/multiselect';
 
 import client from '../api/api';
 
@@ -31,7 +30,7 @@ const TickerSelectionPage = () => {
       </div>
     );
   }
-  return(<div><h1>Sign in.</h1></div>);
+  return(<div><h1>Sign in</h1></div>);
 }
 
 export default TickerSelectionPage
