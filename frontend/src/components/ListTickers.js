@@ -25,7 +25,7 @@ const ListTickers = () => {
 
   // Sends selected tickers as props for the Add Tunnel page.
   function submitTickers() {
-    navigate('/add-tunnel', {selectedTickers});
+    navigate('/add-tunnel/', {state: {symbols: selectedTickers}});
     // console.log(selectedTickers)
   }
 

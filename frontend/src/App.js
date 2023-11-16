@@ -12,6 +12,7 @@ import { PrimeReactProvider } from 'primereact/api';
 
 import LoginPage from './pages/LoginPage';
 import TickerSelectionPage from './pages/TickerSelectionPage';
+import AddTunnelPage from './pages/AddTunnelPage';
 
 function App() {
   return (
@@ -19,8 +20,9 @@ function App() {
       <Router>
         <div className='App'>
           <Routes>
-              <Route path='/' exact element={<LoginPage/>} />
-              <Route path='/selectTickers/' exact element={<TickerSelectionPage/>} />
+            <Route path='/' exact element={<LoginPage/>} />
+            <Route path='/selectTickers/' exact element={<TickerSelectionPage/>} />
+            <Route path='/add-tunnel/' exact element={<AddTunnelPage/>} />
           </Routes>
         </div>
       </Router>

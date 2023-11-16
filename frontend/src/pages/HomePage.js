@@ -1,8 +1,11 @@
 import React from 'react'
+import CustomNavbar from '../components/CustomNavbar'
 
 const HomePage = () => {
   return (
-    <div>HomePage</div>
+    <div>
+      <CustomNavbar/>
+    </div>
   )
 }
 
