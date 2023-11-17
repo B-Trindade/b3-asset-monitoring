@@ -8,6 +8,7 @@ import CustomNavbar from '../components/CustomNavbar';
 import NewTunnelForm from '../components/MultipleTunnelForms';
 
 import Button from 'react-bootstrap/esm/Button';
+import Form from 'react-bootstrap/Form';
 
 
 const AddTunnelPage = () => {
@@ -26,14 +27,22 @@ const AddTunnelPage = () => {
     })
   }, []);
 
+  function submitTunnel(e) {
+    e.preventDefault();
+    // client.postForm
+  }
+
   if(currentUser){
     return (
       <div>
         <CustomNavbar />
-        <div className='tunnel-form'>
-          <NewTunnelForm tickerList={userTickers} />
-          <br/>
-          <Button variant='primary'>Submit</Button>
+        <div className='tunnel-form-container'>
+          <Form className='tunnel-form' onSubmit={submitTunnel}>
+            <NewTunnelForm tickerList={userTickers} />
+            <br/>
+            <Button className='submit-button' variant='primary'
+              type='submit' value='Submit'>Submit</Button>
+          </Form>
         </div>
       </div>
     )
