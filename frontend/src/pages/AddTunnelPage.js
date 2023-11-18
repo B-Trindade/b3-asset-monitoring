@@ -5,13 +5,14 @@ import { useLocation } from 'react-router-dom';
 import client from '../api/api';
 
 import CustomNavbar from '../components/CustomNavbar';
-import NewTunnelForm from '../components/MultipleTunnelForms';
+import MultipleTunnelForms from '../components/MultipleTunnelForms';
 
 import Button from 'react-bootstrap/esm/Button';
 import Form from 'react-bootstrap/Form';
 
 
 const AddTunnelPage = () => {
+  const [tunnels, setTunnels] = useState([]);
   const [userTickers, setUserTickers] = useState([]);
   const [currentUser, setCurrentUser] = useState();
   const location = useLocation();
@@ -38,7 +39,8 @@ const AddTunnelPage = () => {
         <CustomNavbar />
         <div className='tunnel-form-container'>
           <Form className='tunnel-form' onSubmit={submitTunnel}>
-            <NewTunnelForm tickerList={userTickers} />
+            <MultipleTunnelForms tickerList={userTickers}
+            onChange={() => setTunnels}/>
             <br/>
             <Button className='submit-button' variant='primary'
               type='submit' value='Submit'>Submit</Button>
