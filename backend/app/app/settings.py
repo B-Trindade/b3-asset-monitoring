@@ -26,7 +26,14 @@ SECRET_KEY = 'django-insecure-4*)&-71-o^z1)bosp-!=aaq=ic02*s@cynp!@_&n_$-jt-@lf2
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "host.docker.internal",
+    "localhost",
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:3000",
+]
 
 # Allows communication with react frontend
 CORS_ALLOWED_ORIGINS = [
@@ -34,6 +41,10 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:3000",
 ]
 CORS_ALLOW_CREDENTIALS = True
+
+# Allows for chrome to set cookies between different services
+SESSION_COOKIE_SECURE = True
+SESSION_COOKIE_SAMESITE = 'None'
 
 
 # Application definition

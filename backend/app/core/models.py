@@ -77,9 +77,14 @@ class Tunnel(models.Model):
     """Tunnel model."""
     userId = models.ForeignKey(
         settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        to_field='email'
     )
-    assetId = models.ForeignKey(Asset, on_delete=models.CASCADE)
+    assetId = models.ForeignKey(
+        Asset,
+        on_delete=models.CASCADE,
+        to_field='symbol'
+    )
     lowerVal = models.DecimalField(max_digits=10, decimal_places=2)
     upperVal = models.DecimalField(max_digits=10, decimal_places=2)
     interval = models.PositiveIntegerField()

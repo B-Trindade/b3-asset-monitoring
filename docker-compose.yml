@@ -1,10 +1,20 @@
 version: '3.9'
 
 services:
-  redis:
-    image: redis:7.0.11-alpine
+
+  frontendapp:
+    container_name: react-frontend
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend/src:/app/src:ro
+    depends_on:
+      - redis
+      - db
 
   backendapp:
+    container_name: django-backend
     build:
       context: ./backend
       args:
@@ -17,7 +27,7 @@ services:
       sh -c "python manage.py wait_for_db &&
              python manage.py migrate &&
              python manage.py runserver 0.0.0.0:8000"
-    #  python manage.py initialize_db &&
+    # python manage.py initialize_db &&
     environment:
       - DB_HOST=db
       - DB_NAME=devdb
@@ -27,7 +37,12 @@ services:
       - db
       - redis
 
+  redis:
+    container_name: redis
+    image: redis:7.0.11-alpine
+
   celery:
+    container_name: celery
     build:
       context: ./backend
       args:
@@ -44,6 +59,7 @@ services:
       - redis
 
   db:
+    container_name: postgres-db
     image: postgres:13-alpine
     volumes:
       - dev-db-data:/var/lib/postgresql/data

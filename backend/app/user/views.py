@@ -63,6 +63,7 @@ class ManageUserView(generics.RetrieveUpdateAPIView):
 
 class UserLoginView(APIView):
     """Log the user in."""
+    serializer_class = UserLoginSerializer
     permission_classes = [permissions.AllowAny]
     authentication_classes = [SessionAuthentication]
 
@@ -81,8 +82,11 @@ class UserLoginView(APIView):
 
 class UserLogoutView(APIView):
     """Log the user out."""
+    # serializer_class = [UserSerializer]
+    permission_classes = [permissions.AllowAny]
+    authentication_classes = []
 
-    def get(self, request):
+    def post(self, request):
         logout(request)
         return Response(status=status.HTTP_200_OK)
 
