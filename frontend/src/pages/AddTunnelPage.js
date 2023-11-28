@@ -48,7 +48,7 @@ const AddTunnelPage = () => {
 
   function submitTunnel(e) {
     e.preventDefault();
-    console.log(tunnelData);
+    // console.log(tunnelData);
     const postRequests = tunnelData.map(
       (tunnel) => {
         client.post(
@@ -57,19 +57,20 @@ const AddTunnelPage = () => {
           {withCredentials: true,
           withXSRFToken: true},
         )
-        console.log(tunnel)
+        // console.log(tunnel)
       }
     );
     axios.all(postRequests)
     .then((responses) => {
       responses.forEach((res) => {
-        let msg = {
-          // server: res.headers.server,
-          status: res.status,
-          fields: Object.keys(res.data).toString(),
-        };
-        console.info(res.config.url);
-        console.table(msg);
+        console.log(res);
+        // let msg = {
+        //   // server: res.headers.server,
+        //   status: res.status,
+        //   fields: Object.keys(res.data).toString(),
+        // };
+        // console.info(res.config.url);
+        // console.table(msg);
       });
     });
   }
