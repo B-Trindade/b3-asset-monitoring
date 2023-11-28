@@ -49,7 +49,7 @@ const NewTunnelForm = ({ticker, index, formData, setFormData}) => {
           aria-label='Periodicity'
           type='number'
           max={720}
-          onChange={e => handleChange(index, 'interval', e.target.value)}
+          onChange={e => handleChange(index, 'interval', parseInt(e.target.value))}
         />
       </InputGroup>
     </>

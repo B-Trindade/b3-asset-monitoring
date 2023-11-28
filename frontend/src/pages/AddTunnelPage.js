@@ -3,10 +3,10 @@ import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import client from '../api/api';
+import axios from 'axios';
 
 import CustomNavbar from '../components/CustomNavbar';
 import NewTunnelForm from '../components/NewTunnelForm';
-
 import Button from 'react-bootstrap/esm/Button';
 import Form from 'react-bootstrap/Form';
 
@@ -27,7 +27,7 @@ const AddTunnelPage = () => {
     .catch(function(error) {
       setCurrentUser(false);
     })
-  }, [currentUser]);
+  }, [currentUser, location.state.symbols]);
 
   // Creates a json response for each asset selected
   // and initializes its values accordingly.
@@ -48,8 +48,30 @@ const AddTunnelPage = () => {
 
   function submitTunnel(e) {
     e.preventDefault();
-    // client.postForm
-    console.log(tunnelData)
+    console.log(tunnelData);
+    const postRequests = tunnelData.map(
+      (tunnel) => {
+        client.post(
+          "/api/tunnels/tunnels/",
+          tunnel,
+          {withCredentials: true,
+          withXSRFToken: true},
+        )
+        console.log(tunnel)
+      }
+    );
+    axios.all(postRequests)
+    .then((responses) => {
+      responses.forEach((res) => {
+        let msg = {
+          // server: res.headers.server,
+          status: res.status,
+          fields: Object.keys(res.data).toString(),
+        };
+        console.info(res.config.url);
+        console.table(msg);
+      });
+    });
   }
 
   if(currentUser){

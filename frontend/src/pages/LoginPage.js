@@ -67,6 +67,7 @@ const LoginPage = () => {
           password: password
         }
       ).then(function(res) {
+        console.log(res.headers)
         setCurrentUser(true);
       });
     }
