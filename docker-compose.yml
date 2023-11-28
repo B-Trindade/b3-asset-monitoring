@@ -12,6 +12,7 @@ services:
     depends_on:
       - redis
       - db
+      - celery
 
   backendapp:
     container_name: django-backend
@@ -47,6 +48,7 @@ services:
       context: ./backend
       args:
         - DEV=true
+    command: celery --app=app worker -l INFO
     volumes:
       - ./backend/app:/app
     environment:

@@ -11,4 +11,12 @@ from celery import Celery
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'app.settings')
 
 app = Celery("app")
-app.conf.from_object("django.conf:settings", namespace="CELERY")
+app.config_from_object("django.conf:settings", namespace="CELERY")
+
+
+@app.task
+def app_task():
+    return "App task called."
+
+
+app.autodiscover_tasks()
