@@ -63,6 +63,7 @@ INSTALLED_APPS = [
     'drf_spectacular',
     'user',
     'asset',
+    'tunnel',
     # 'rest_framework.authtoken',
 ]
 
