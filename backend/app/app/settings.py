@@ -13,6 +13,9 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 import os
 from pathlib import Path
 
+from celery.schedules import crontab
+import core.tasks
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -178,3 +181,13 @@ CELERY_RESULT_BACKEND = os.environ.get(
     "CELERY_BACKEND",
     "redis://redis:6379/0"
 )
+CELERY_BEAT_SCHEDULE = {
+    # "sample_task": {
+    #     "task": "core.tasks.sample_task",
+    #     "schedule": crontab(minute='*/1'),
+    # },
+    "update_db": {
+        "task": "core.tasks.update_db_task",
+        "schedule": crontab(minute='*/2'),
+    },
+}
