@@ -7,7 +7,6 @@ from celery.utils.log import get_task_logger
 
 from django.utils import timezone
 from django.core.management import call_command
-from models import Tunnel
 
 
 logger = get_task_logger(__name__)
@@ -30,6 +29,7 @@ def update_db_task():
 @shared_task
 def check_tunnel_thresholds_task():
     """Task for checking if current ticker value crosses thresholds"""
+    from .models import Tunnel
     now = timezone.now()
 
     for tunnel in Tunnel.objects.all():
@@ -38,5 +38,4 @@ def check_tunnel_thresholds_task():
                 pass  # TODO send email
             if tunnel.assetId.value < tunnel.lowerVal:
                 pass  # TODO send email
-            tunnel.lastChecked = now
-            tunnel.save()
+            tunnel.save()  # Will automatically update lastChecked

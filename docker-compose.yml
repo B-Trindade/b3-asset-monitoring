@@ -59,6 +59,7 @@ services:
     depends_on:
       - db
       - redis
+      - backendapp
 
   celery-beat:
     container_name: celery-beat
@@ -77,6 +78,7 @@ services:
     depends_on:
       - db
       - redis
+      - backendapp
 
   db:
     container_name: postgres-db
