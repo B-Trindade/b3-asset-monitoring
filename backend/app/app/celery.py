@@ -14,9 +14,9 @@ app = Celery("app")
 app.config_from_object("django.conf:settings", namespace="CELERY")
 
 
-@app.task
-def app_task():
-    return "App task called."
+# @app.task
+# def app_task():
+#     return "App task called."
 
 
 app.autodiscover_tasks()

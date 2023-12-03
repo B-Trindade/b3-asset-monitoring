@@ -25,7 +25,6 @@ def sample_task():
 @shared_task
 def update_db_task():
     """Task for updating Assets on db."""
-
     # Evokes django admin command for updating db
     call_command('initialize_db')
 
@@ -38,7 +37,7 @@ def check_tunnel_thresholds_task():
 
     for tunnel in Tunnel.objects.all():
         if (now - tunnel.lastChecked) >= timedelta(minutes=tunnel.interval):
-            print(f"Checking {tunnel.assetId} for {tunnel.userId}.")
+            logger.info(f"Checking {tunnel.assetId} for {tunnel.userId}.")
             if tunnel.assetId.value > tunnel.upperVal:
                 send_mail_task.delay(
                     user=tunnel.userId.email,
@@ -74,7 +73,8 @@ def send_mail_task(user, username, ticker, action, curr_value, set_value):
 
         {action} is advised!
     """
-    print(f"Sending email to {user}")
+
+    logger.info(f"Sending email to {user}.")
     send_mail(
         subject=mail_sbj,
         message=msg,
