@@ -190,4 +190,17 @@ CELERY_BEAT_SCHEDULE = {
         "task": "core.tasks.update_db_task",
         "schedule": crontab(minute='*/2'),
     },
+    "check_tunnels": {
+        "task": "core.tasks.check_tunnel_thresholds_task",
+        "schedule": crontab(minute='*/1'),
+    }
 }
+
+# SMTP Settings
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_USE_TLS = True
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT = 587
+EMAIL_HOST_USER = "b3notifier.noreply@gmail.com"
+EMAIL_HOST_PASSWORD = "omuadytektmhsxkv"
+DEFAULT_FROM_EMAIL = "Testing <b3notifier.noreply@gmail.com>"
