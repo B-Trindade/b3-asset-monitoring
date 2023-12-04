@@ -1,8 +1,8 @@
 # b3-asset-monitoring
 
-=====================
-
 `b3-asset-monitor` is a Django/Python application that provides a financial advisory system through email notifications. Currently `B3-Notifier` is only available locally - this may change in the future. `B3-Notifier` allows users to register and set custom [Bovespa B3](https://www.b3.com.br/) ticker notifications for buying and selling boundries.
+
+## About
 
 ---
 
@@ -23,7 +23,20 @@ sudo apt-get install ./docker-desktop-<version>-<arch>.deb
 
 To run the application for the first time you must follow some simple steps.
 
-### Run Docker Desktop.
+### Configure SMTP
+
+Provide an `email` and `password` to be used by the app. This address will send the notifications to users. By default it uses gmail, however, this can be customized at the end of your `settings.py` file under the SMTP settings section.
+
+```python
+# /backend/app/app/settings.py
+
+...
+# SMTP Settings
+EMAIL_HOST_USER = "example@gmail.com"  # your app email
+EMAIL_HOST_PASSWORD = "abcdefghijklmnop"  # your gmail app key
+```
+
+### Run Docker Desktop
 
 For this you can search Docker Desktop on the Applications menu and open it. This launches the Docker menu icon and opens the Docker Dashboard, reporting the status of Docker Desktop.
 
