@@ -4,6 +4,18 @@
 
 ## About
 
+This project was developed with the following technologies:
+
+- Django, Django REST Framework and DRF Spectacular
+- React.js, React Router and Axios
+- Celery, Redis (message broker)
+- PostgreSQL
+- Docker
+
+The REST API endpoints are documented at the `http://localhost:8000/api/docs/` endpoint with automatically generated Swagger UI page by DRF Spectacular. Endpoints can be tested directly and individually through this page. Read more about [Swagger UI](https://swagger.io/tools/swagger-ui/) and [DRF Spectacular](https://drf-spectacular.readthedocs.io/en/latest/).
+
+The `B3-Notifier` employs Celery workers as a solution to computation intensive and scheduled tasks such as fetching ticker data from YahooQuery and sending emails to users. Redis acts as a message broker between the Django backend and Celery while the database uses PostgreSQL.
+
 ---
 
 ## Setup
@@ -71,3 +83,5 @@ docker-compose run --rm backendapp sh -c "python manage.py createsuperuser"
 ---
 
 ## Functionalities and usage
+
+Upcoming...
