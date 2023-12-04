@@ -13,6 +13,9 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 import os
 from pathlib import Path
 
+from celery.schedules import crontab
+import core.tasks
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -63,6 +66,7 @@ INSTALLED_APPS = [
     'drf_spectacular',
     'user',
     'asset',
+    'tunnel',
     # 'rest_framework.authtoken',
 ]
 
@@ -177,3 +181,26 @@ CELERY_RESULT_BACKEND = os.environ.get(
     "CELERY_BACKEND",
     "redis://redis:6379/0"
 )
+CELERY_BEAT_SCHEDULE = {
+    # "sample_task": {
+    #     "task": "core.tasks.sample_task",
+    #     "schedule": crontab(minute='*/1'),
+    # },
+    "update_db": {
+        "task": "core.tasks.update_db_task",
+        "schedule": crontab(minute='*/2'),
+    },
+    "check_tunnels": {
+        "task": "core.tasks.check_tunnel_thresholds_task",
+        "schedule": crontab(minute='*/1'),
+    }
+}
+
+# SMTP Settings
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_USE_TLS = True
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT = 587
+EMAIL_HOST_USER = "b3notifier.noreply@gmail.com"
+EMAIL_HOST_PASSWORD = "omuadytektmhsxkv"
+DEFAULT_FROM_EMAIL = "Testing <b3notifier.noreply@gmail.com>"

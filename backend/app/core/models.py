@@ -88,6 +88,10 @@ class Tunnel(models.Model):
     lowerVal = models.DecimalField(max_digits=10, decimal_places=2)
     upperVal = models.DecimalField(max_digits=10, decimal_places=2)
     interval = models.PositiveIntegerField()
+    lastChecked = models.DateTimeField(
+        auto_now=True,
+        editable=False
+    )
 
     def __str__(self):
         return f"Tunnel for: {self.assetId.symbol} by {self.userId.email}"

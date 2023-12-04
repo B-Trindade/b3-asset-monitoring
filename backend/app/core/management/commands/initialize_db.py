@@ -15,7 +15,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         """Entrypoint for command."""
-        self.stdout.write('Fetching latest data...')
+        self.stdout.write('Updating Database...')
         df = self.__get_all_tickers()
 
         entries = []
@@ -30,6 +30,7 @@ class Command(BaseCommand):
 
     def __get_all_tickers(self):
         """Uses Yahoo Query to fetch ticker information."""
+        self.stdout.write('Fetching most recent data from YahooQuery...')
         symbols = self.__get_symbols()
 
         # YahooQuery utilizes the '.SA' termination for B3 assets
@@ -50,13 +51,16 @@ class Command(BaseCommand):
             'date': 'date',
             'close': 'value'
         })
+        self.stdout.write('Done.')
         return df
 
     def __get_symbols(self):
         """Get symbols from investing.com"""
+        self.stdout.write('Fetching available tickers...')
         br_symbols = inv.stocks.get_stocks(country='brazil')['symbol']
         br_symbols = list(filter(
             lambda x: ('11' not in x) and (len(x) <= 5),
             br_symbols
         ))
+        self.stdout.write('Done.')
         return br_symbols
