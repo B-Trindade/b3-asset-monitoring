@@ -82,3 +82,22 @@ def send_mail_task(user, username, ticker, action, curr_value, set_value):
         recipient_list=[receiver],
         fail_silently=True,
     )
+
+
+@shared_task
+def get_historical_data(ticker):
+    """Task for fetching historical data given a ticker symbol."""
+    import yahooquery as yq
+    import pandas as pd
+
+    logger.info(f'Fetching data for {ticker}...')
+
+    # Ticker objects used for fetching Yahoo Finance data
+    ticker_data = yq.Ticker(ticker)
+
+    df_ticker_data = ticker_data.history(period='1d', interval='5m')
+    df_ticker_data = df_ticker_data.reset_index(level=['symbol', 'date'])
+    df_ticker_data['date'] = df_ticker_data['date'].map(lambda x: pd.to_datetime(x))
+
+    logger.info(f'{ticker} data retrieved.')
+    return df_ticker_data.to_json(orient='records')
