@@ -41,6 +41,7 @@ def check_tunnel_thresholds_task():
             if tunnel.assetId.value > tunnel.upperVal:
                 send_mail_task.delay(
                     user=tunnel.userId.email,
+                    username=tunnel.userId.name,
                     ticker=tunnel.assetId.symbol,
                     action='Selling',
                     curr_value=tunnel.assetId.value,
