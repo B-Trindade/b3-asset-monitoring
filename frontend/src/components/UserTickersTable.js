@@ -4,6 +4,7 @@ import { Column } from 'primereact/column';
 import { FilterMatchMode } from 'primereact/api';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
+import { confirmDialog, ConfirmDialog } from 'primereact/confirmdialog';
 
 import axios from 'axios';
 import client from '../api/api';
@@ -11,9 +12,11 @@ import client from '../api/api';
 const UserTickersTable = () => {
   const [currentUser, setCurrentUser] = useState();
   const [userTickerData, setUserTickerData] = useState();
+  const [selectedRow, setSelectedRow] = useState(null);
   const [filters, setFilters] = useState({
     global: {value: null, matchMode: FilterMatchMode.CONTAINS },
   });
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     axios.all([
@@ -30,6 +33,28 @@ const UserTickersTable = () => {
       setCurrentUser(false);
     })
   }, []);
+
+  useEffect(() => {
+    if (selectedRow) {
+      client.get(`/api/asset/database/${selectedRow.assetId}`)
+      .then((res) => {
+        detailDialog(res);
+      })
+      .catch((error) => {
+        console.log("Something went wrong...")
+      })
+    }
+  }, [selectedRow])
+
+  const detailDialog = (event) => {
+    console.log(event.data.symbol)
+    confirmDialog({
+      message:
+        `${event.data.symbol} current market value is: R$ ${event.data.value}`,
+      header: "Confirmation",
+      icon: "pi pi-info-circle",
+    });
+  };
 
   const formatCurrency = (value) => {
     const val = parseFloat(value)
@@ -70,10 +95,21 @@ const UserTickersTable = () => {
 
         </span>
         <Button icon="pi pi-refresh" rounded raised />
-
-        <DataTable value={userTickerData} header={header} footer={footer}
-        paginator rows={10} rowsPerPageOptions={[5, 10, 25, 50]}
-        filters={filters} tableStyle={{ minWidth: '60rem' }} >
+        <ConfirmDialog />
+        <DataTable
+          value={userTickerData}
+          header={header}
+          footer={footer}
+          paginator
+          rows={10}
+          rowsPerPageOptions={[5, 10, 25, 50]}
+          filters={filters}
+          tableStyle={{ minWidth: '60rem' }}
+          onSelectionChange={(e) => setSelectedRow(e.value)}
+          selection={selectedRow}
+          selectionMode="single"
+          // onRowSelect={detailDialog}
+        >
           <Column field='id' header='ID' sortable />
           <Column field='assetId' header='Ticker' sortable />
           <Column field='lowerVal' header='Buy Value' body={lowerValBodyTemplate} sortable />

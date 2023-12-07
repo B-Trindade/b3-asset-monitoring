@@ -4,7 +4,7 @@ URL mappings for the asset app.
 
 from django.urls import (
     path,
-    include,
+    # include,
 )
 
 # from rest_framework.routers import DefaultRouter
@@ -19,6 +19,9 @@ app_name = 'asset'
 
 urlpatterns = [
     # path('', include(router.urls)),
-    path('details/<str:symbol>', views.DetailedAssetView.as_view(), name='details'),
+    path('database/<str:symbol>',
+         views.RetrieveAssetView.as_view(), name='asset'),
+    path('details/<str:symbol>',
+         views.DetailedAssetView.as_view(), name='details'),
     path('list/', views.ListAssets.as_view(), name='list'),
 ]
