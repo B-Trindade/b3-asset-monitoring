@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import client from '../api/api';
 import axios from 'axios';
@@ -13,6 +13,7 @@ import Form from 'react-bootstrap/Form';
 
 const AddTunnelPage = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const [currentUser, setCurrentUser] = useState();
   const [userTickers, setUserTickers] = useState([]);
   const [tunnelData, setTunnelData] = useState([]);
@@ -72,7 +73,8 @@ const AddTunnelPage = () => {
         // console.info(res.config.url);
         // console.table(msg);
       });
-    });
+    })
+    .then(navigate('/home/'));
   }
 
   if(currentUser){

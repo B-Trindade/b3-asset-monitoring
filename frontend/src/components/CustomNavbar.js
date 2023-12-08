@@ -7,10 +7,11 @@ import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import Button from 'react-bootstrap/Button';
-
+import { useNavigate, Link } from 'react-router-dom'
 
 const CustomNavbar = () => {
   const [currentUser, setCurrentUser] = useState();
+  const navigate = useNavigate();
 
   useEffect(() => {
     client.get("/api/user/me/")
@@ -29,6 +30,7 @@ const CustomNavbar = () => {
       {withCredentials: true}
     ).then(function(res) {
       setCurrentUser(false);
+      navigate('/');
     });
   }
 
@@ -36,12 +38,12 @@ const CustomNavbar = () => {
     return (
       <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary">
         <Container>
-          <Navbar.Brand href="#home">B3 Notify</Navbar.Brand>
+          <Navbar.Brand as={Link} to="/home/">B3 Notify</Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="me-auto">
-                <Nav.Link href="/">Home</Nav.Link>
-                <Nav.Link href="selectTickers/">Add Tickers</Nav.Link>
+              <Nav.Link as={Link} to="/home/" replace={true}>Home</Nav.Link>
+              <Nav.Link as={Link} to="/selectTickers/">Add Tickers</Nav.Link>
             </Nav>
             <Navbar.Text>
               <form onSubmit={e => submitLogout(e)}>
@@ -56,12 +58,12 @@ const CustomNavbar = () => {
   return (
     <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary">
       <Container>
-        <Navbar.Brand href="#home">B3 Notify</Navbar.Brand>
+        <Navbar.Brand href="/home">B3 Notify</Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link href="#features">Home</Nav.Link>
-            <Nav.Link href="#pricing">Add Tickers</Nav.Link>
+            {/* <Nav.Link as={Link} to="/home/" replace={true}>Home</Nav.Link>
+            <Nav.Link as={Link} to="/selectTickers/">Add Tickers</Nav.Link> */}
           </Nav>
           <Navbar.Text>
             <Button id='form_btn' // onClick={update_form_btn}

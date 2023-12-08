@@ -1,5 +1,6 @@
 import React from 'react'
 import { useState, useEffect } from 'react';
+import { Link, Navigate } from 'react-router-dom';
 
 import client from '../api/api';
 
@@ -87,28 +88,23 @@ const LoginPage = () => {
         <div>
           <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary">
             <Container>
-              <Navbar.Brand href="#home">B3 Notify</Navbar.Brand>
+              <Navbar.Brand as={Link} to="/home/">B3 Notify</Navbar.Brand>
               <Navbar.Toggle aria-controls="responsive-navbar-nav" />
               <Navbar.Collapse id="responsive-navbar-nav">
                 <Nav className="me-auto">
-                  <Nav.Link href="/">Home</Nav.Link>
-                  <Nav.Link href="selectTickers/">Add Tickers</Nav.Link>
+                  <Nav.Link as={Link} to="/home/">Home</Nav.Link>
+                  <Nav.Link as={Link} to="/selectTickers/">Add Tickers</Nav.Link>
                 </Nav>
                 <Navbar.Text>
                   <form onSubmit={e => submitLogout(e)}>
                     <Button type='submit' variant='dark'>Sign out</Button>
                   </form>
                 </Navbar.Text>
-                {/* <Nav>
-                  <Nav.Link eventKey={2} href="#memes">
-                    Sign out
-                  </Nav.Link>
-                </Nav> */}
               </Navbar.Collapse>
             </Container>
           </Navbar>
           <div className='center'>
-            <h2>You're logged in!</h2>
+            <Navigate to="/home/" />
           </div>
         </div>
       );
@@ -121,18 +117,13 @@ const LoginPage = () => {
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="me-auto">
-              <Nav.Link href="/">Home</Nav.Link>
-              <Nav.Link href="selectTickers/">Add Tickers</Nav.Link>
+              {/* <Navigate to="/home/" replace={true}>Home</Navigate>
+              <Navigate to="/selectTickers/" replace={true}>Add Tickers</Navigate> */}
             </Nav>
             <Navbar.Text>
               <Button id='form_btn' onClick={update_form_btn}
                 variant='dark'>Register</Button>
             </Navbar.Text>
-            {/* <Nav>
-              <Nav.Link eventKey={2} href="#memes">
-                Sign out
-              </Nav.Link>
-            </Nav> */}
           </Navbar.Collapse>
         </Container>
       </Navbar>
