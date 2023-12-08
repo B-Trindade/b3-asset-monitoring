@@ -21,6 +21,7 @@ The `B3-Notifier` employs Celery workers as a solution to computation intensive 
 ## Setup
 
 To setup and run services locally you must be able to run `docker-compose` commands. I recommend using the [Docker Desktop](https://docs.docker.com/desktop/) application.
+It is also reccomended to use Google Chrome as your browser or other Chromium based browser.
 
 ### Install Docker Desktop
 
